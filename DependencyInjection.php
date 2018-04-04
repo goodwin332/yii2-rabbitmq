@@ -10,6 +10,7 @@ use mikemadisonweb\rabbitmq\exceptions\InvalidConfigException;
 use PhpAmqpLib\Connection\AbstractConnection;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\di\ServiceLocator;
 
 class DependencyInjection implements BootstrapInterface
 {
