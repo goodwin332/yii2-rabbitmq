@@ -158,7 +158,14 @@ class DependencyInjection implements BootstrapInterface
      */
     private function getCallbackClass(string $callbackName) : ConsumerInterface
     {
-        $callbackClass = \Yii::$app->get($callbackName);
+        if (in_array($callbackName, array_keys(\Yii::$container->getDefinitions()))) {
+            $callbackClass = \Yii::$container->get($callbackName);
+        } else {
+            $callbackClass = \Yii::$app->get($callbackName);
+        }
+        if ($callbackClass instanceof ServiceLocator) {
+            $callbackClass = $callbackClass->getEventHandler();
+        }
         if (!($callbackClass instanceof ConsumerInterface)) {
             throw new InvalidConfigException("{$callbackName} should implement ConsumerInterface.");
         }
